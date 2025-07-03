@@ -1,34 +1,36 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import UpdateCard from '@/components/molecules/UpdateCard'
-import UpdateComposer from '@/components/molecules/UpdateComposer'
-import PodMemberCard from '@/components/molecules/PodMemberCard'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import Empty from '@/components/ui/Empty'
-import { updateService } from '@/services/api/updateService'
-import { reactionService } from '@/services/api/reactionService'
-import { userService } from '@/services/api/userService'
-import { goalService } from '@/services/api/goalService'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import UpdateComposer from "@/components/molecules/UpdateComposer";
+import PodMemberCard from "@/components/molecules/PodMemberCard";
+import UpdateCard from "@/components/molecules/UpdateCard";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import { updateService } from "@/services/api/updateService";
+import { goalService } from "@/services/api/goalService";
+import { userService } from "@/services/api/userService";
+import { reactionService } from "@/services/api/reactionService";
 
-const PodFeed = () => {
+export default function PodFeed() {
   const [updates, setUpdates] = useState([])
   const [reactions, setReactions] = useState([])
   const [users, setUsers] = useState([])
   const [goals, setGoals] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   
-  const currentUser = { Id: 1, name: 'John Doe', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80' }
+  const currentUser = {
+    Id: 1,
+    name: 'John Doe',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john-doe'
+  }
   
   useEffect(() => {
     loadData()
   }, [])
-  
   const loadData = async () => {
-    try {
-      setLoading(true)
-      setError('')
+try {
+      setError(null)
       
       const [updatesData, reactionsData, usersData, goalsData] = await Promise.all([
         updateService.getAll(),
@@ -48,7 +50,8 @@ const PodFeed = () => {
       setGoals(goalsData)
       
     } catch (err) {
-      setError('Failed to load pod feed')
+      console.error('Pod feed loading error:', err)
+      setError('Failed to load pod feed. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -214,5 +217,3 @@ const PodFeed = () => {
     </div>
   )
 }
-
-export default PodFeed

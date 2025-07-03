@@ -1,26 +1,38 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import ApperIcon from '@/components/ApperIcon'
-import StatsCard from '@/components/molecules/StatsCard'
-import GoalCard from '@/components/molecules/GoalCard'
-import MilestoneItem from '@/components/molecules/MilestoneItem'
-import PodMemberCard from '@/components/molecules/PodMemberCard'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import Empty from '@/components/ui/Empty'
-import { goalService } from '@/services/api/goalService'
-import { milestoneService } from '@/services/api/milestoneService'
-import { podService } from '@/services/api/podService'
-import { userService } from '@/services/api/userService'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
+import StatsCard from "@/components/molecules/StatsCard";
+import GoalCard from "@/components/molecules/GoalCard";
+import PodMemberCard from "@/components/molecules/PodMemberCard";
+import MilestoneItem from "@/components/molecules/MilestoneItem";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import GoalsPage from "@/components/pages/Goals";
+import goalTemplates from "@/services/mockData/goalTemplates.json";
+import reactions from "@/services/mockData/reactions.json";
+import milestonesData from "@/services/mockData/milestones.json";
+import goalsData from "@/services/mockData/goals.json";
+import podsData from "@/services/mockData/pods.json";
+import updatesData from "@/services/mockData/updates.json";
+import usersData from "@/services/mockData/users.json";
+import { milestoneService } from "@/services/api/milestoneService";
+import { goalService } from "@/services/api/goalService";
+import { userService } from "@/services/api/userService";
+import { podService } from "@/services/api/podService";
 
 const MyProgress = () => {
   const [goals, setGoals] = useState([])
   const [milestones, setMilestones] = useState([])
   const [podMembers, setPodMembers] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   
-  const currentUser = { Id: 1, name: 'John Doe' }
+  const currentUser = {
+    Id: 1,
+    name: 'John Doe',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john-doe'
+  }
   
   useEffect(() => {
     loadData()
