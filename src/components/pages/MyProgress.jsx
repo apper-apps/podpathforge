@@ -31,8 +31,8 @@ const MyProgress = () => {
   const [error, setError] = useState('')
   const [showConfetti, setShowConfetti] = useState(false)
   const [celebratingMilestone, setCelebratingMilestone] = useState(null)
-  const currentUser = {
-    Id: 1,
+const currentUser = {
+    id: 1,
     name: 'John Doe',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john-doe'
   }
@@ -53,23 +53,23 @@ const MyProgress = () => {
         userService.getAll()
       ])
       
-      // Filter user's goals
-      const userGoals = goalsData.filter(goal => goal.userId === currentUser.Id.toString())
+// Filter user's goals
+      const userGoals = goalsData.filter(goal => goal.userId === currentUser.id.toString())
       setGoals(userGoals)
       
       // Get milestones for user's goals
       const userMilestones = milestonesData.filter(milestone => 
-        userGoals.some(goal => goal.Id === milestone.goalId)
+        userGoals.some(goal => goal.id === milestone.goalId)
       )
       setMilestones(userMilestones)
       
-      // Get pod members
+// Get pod members
       const userPods = podsData.filter(pod => 
-        pod.memberIds.includes(currentUser.Id.toString())
+        pod.memberIds.includes(currentUser.id.toString())
       )
       if (userPods.length > 0) {
-        const memberIds = userPods[0].memberIds.filter(id => id !== currentUser.Id.toString())
-        const members = usersData.filter(user => memberIds.includes(user.Id.toString()))
+        const memberIds = userPods[0].memberIds.filter(id => id !== currentUser.id.toString())
+        const members = usersData.filter(user => memberIds.includes(user.id.toString()))
         setPodMembers(members)
       }
       
@@ -81,8 +81,8 @@ const MyProgress = () => {
   }
   
 const handleToggleMilestone = async (milestoneId) => {
-    try {
-      const milestone = milestones.find(m => m.Id === milestoneId)
+try {
+      const milestone = milestones.find(m => m.id === milestoneId)
       if (!milestone) return
       
       const wasCompleted = milestone.completed
@@ -91,8 +91,8 @@ const handleToggleMilestone = async (milestoneId) => {
         completed: !milestone.completed
       })
       
-      setMilestones(prev => 
-        prev.map(m => m.Id === milestoneId ? updatedMilestone : m)
+setMilestones(prev => 
+        prev.map(m => m.id === milestoneId ? updatedMilestone : m)
       )
       
       // Trigger celebration animations and notifications if milestone was just completed
@@ -135,11 +135,10 @@ const handleToggleMilestone = async (milestoneId) => {
   const notifyPodMembers = async (milestone) => {
     try {
       // Get user's pod
-      const userPods = await podService.getAll()
+const userPods = await podService.getAll()
       const userPod = userPods.find(pod => 
-        pod.memberIds.includes(currentUser.Id.toString())
+        pod.memberIds.includes(currentUser.id.toString())
       )
-      
       if (userPod) {
         // Create notification message
         const notificationMessage = `${currentUser.name} just completed a milestone: ${milestone.title}! 🎉`
@@ -163,9 +162,9 @@ const handleToggleMilestone = async (milestoneId) => {
   const completionRate = totalMilestones > 0 ? Math.round((completedMilestones / totalMilestones) * 100) : 0
   
   // Get active goal and its milestones
-  const activeGoal = goals.find(goal => goal.status === 'active')
+const activeGoal = goals.find(goal => goal.status === 'active')
   const activeGoalMilestones = activeGoal 
-    ? milestones.filter(m => m.goalId === activeGoal.Id).sort((a, b) => a.order - b.order)
+    ? milestones.filter(m => m.goalId === activeGoal.id).sort((a, b) => a.order - b.order)
     : []
   
   if (loading) return <Loading type="cards" />
@@ -244,11 +243,11 @@ return (
               />
             ) : (
               <div className="space-y-4">
-                {goals.map(goal => (
+{goals.map(goal => (
                   <GoalCard
-                    key={goal.Id}
+                    key={goal.id}
                     goal={goal}
-                    milestones={milestones.filter(m => m.goalId === goal.Id)}
+                    milestones={milestones.filter(m => m.goalId === goal.id)}
                     onGoalClick={() => {}}
                   />
                 ))}
@@ -270,13 +269,13 @@ return (
                 />
               ) : (
 <div className="space-y-4">
-                  {activeGoalMilestones.map(milestone => (
+{activeGoalMilestones.map(milestone => (
                     <motion.div
-                      key={milestone.Id}
+                      key={milestone.id}
                       initial={{ scale: 1 }}
-                      animate={{ 
-                        scale: celebratingMilestone === milestone.Id ? [1, 1.05, 1] : 1,
-                        rotate: celebratingMilestone === milestone.Id ? [0, 2, -2, 0] : 0
+animate={{ 
+                        scale: celebratingMilestone === milestone.id ? [1, 1.05, 1] : 1,
+                        rotate: celebratingMilestone === milestone.id ? [0, 2, -2, 0] : 0
                       }}
                       transition={{ 
                         duration: 0.6,
@@ -310,9 +309,9 @@ return (
               />
             ) : (
               <div className="space-y-4">
-                {podMembers.map(member => (
+{podMembers.map(member => (
                   <PodMemberCard
-                    key={member.Id}
+                    key={member.id}
                     member={member}
                     goal={goals[0]}
                     currentStreak={member.currentStreak}
@@ -331,9 +330,9 @@ return (
                 milestones
                   .filter(m => m.completed)
                   .slice(0, 3)
-                  .map(milestone => (
+.map(milestone => (
                     <motion.div
-                      key={milestone.Id}
+                      key={milestone.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       whileHover={{ scale: 1.02 }}

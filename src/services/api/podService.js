@@ -125,10 +125,10 @@ if (score >= 0.6) return "Potential good fit with some shared interests"
     return "Compatible group with room to grow together"
   },
 
-  async getAIInsights(podId) {
+async getAIInsights(podId) {
     await delay(350)
     
-    const pod = mockPods.find(p => p.Id.toString() === podId.toString())
+    const pod = mockPods.find(p => p.id.toString() === podId.toString())
     if (!pod) {
       throw new Error('Pod not found')
     }
