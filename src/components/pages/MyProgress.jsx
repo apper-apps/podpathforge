@@ -5,6 +5,7 @@ import StatsCard from "@/components/molecules/StatsCard";
 import GoalCard from "@/components/molecules/GoalCard";
 import PodMemberCard from "@/components/molecules/PodMemberCard";
 import MilestoneItem from "@/components/molecules/MilestoneItem";
+import InsightsPanel from "@/components/organisms/InsightsPanel";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
@@ -147,7 +148,14 @@ const MyProgress = () => {
           change="Personal best!"
           trend="up"
         />
-      </div>
+</div>
+      
+      {/* Insights Panel */}
+      <InsightsPanel 
+        goals={goals} 
+        milestones={milestones} 
+        currentUser={currentUser} 
+      />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}

@@ -40,6 +40,54 @@ export const milestoneService = {
     if (index === -1) throw new Error('Milestone not found')
     
     mockMilestones.splice(index, 1)
-    return true
+return true
+  },
+
+  async getTrendData(userId) {
+    await delay(200)
+    
+    // Generate last 30 days of trend data
+    const trendData = []
+    const today = new Date()
+    
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
+      
+      // Calculate milestones completed by this date
+      const completedByDate = mockMilestones.filter(m => {
+        const milestoneDate = new Date(m.createdAt || '2024-01-01')
+        return m.completed && milestoneDate <= date
+      }).length
+      
+      // Calculate overall progress (simple simulation)
+      const progress = Math.min(100, (completedByDate / mockMilestones.length) * 100)
+      
+      trendData.push({
+        date: date.toISOString().split('T')[0],
+        completed: completedByDate,
+        progress: Math.round(progress)
+      })
+    }
+    
+    return trendData
+  },
+
+  async getCompletionStats(userId) {
+    await delay(200)
+    
+    const userMilestones = mockMilestones.filter(m => 
+      mockMilestones.some(milestone => milestone.userId === userId)
+    )
+    
+    const completed = userMilestones.filter(m => m.completed).length
+    const total = userMilestones.length
+    
+    return {
+      completed,
+      total,
+      completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+      averageTimeToComplete: 7 // days (simulated)
+    }
   }
 }
