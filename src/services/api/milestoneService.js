@@ -25,12 +25,19 @@ export const milestoneService = {
     return { ...newMilestone }
   },
 
-  async update(id, milestoneData) {
+async update(id, milestoneData) {
     await delay(300)
     const index = mockMilestones.findIndex(m => m.Id === parseInt(id))
     if (index === -1) throw new Error('Milestone not found')
     
-    mockMilestones[index] = { ...mockMilestones[index], ...milestoneData }
+    const previousMilestone = { ...mockMilestones[index] }
+    mockMilestones[index] = { 
+      ...mockMilestones[index], 
+      ...milestoneData,
+      lastUpdated: new Date().toISOString(),
+      celebrationTriggered: !previousMilestone.completed && milestoneData.completed
+    }
+    
     return { ...mockMilestones[index] }
   },
 

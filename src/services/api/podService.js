@@ -25,13 +25,32 @@ export const podService = {
     return { ...newPod }
   },
 
-  async update(id, podData) {
+async update(id, podData) {
     await delay(300)
     const index = mockPods.findIndex(p => p.Id === parseInt(id))
     if (index === -1) throw new Error('Pod not found')
     
     mockPods[index] = { ...mockPods[index], ...podData }
     return { ...mockPods[index] }
+  },
+
+  async notifyMembers(podId, notification) {
+    await delay(200)
+    const pod = mockPods.find(p => p.Id === parseInt(podId))
+    if (!pod) throw new Error('Pod not found')
+    
+    // In a real implementation, this would send notifications to pod members
+    // For now, we'll simulate the notification process
+    return {
+      success: true,
+      notifiedMembers: pod.memberIds.length,
+      notification: {
+        type: 'milestone_completed',
+        message: notification.message,
+        timestamp: new Date().toISOString(),
+        podId: podId
+      }
+    }
   },
 
   async delete(id) {

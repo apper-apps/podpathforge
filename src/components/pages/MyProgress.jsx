@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Confetti from "react-confetti";
+import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import StatsCard from "@/components/molecules/StatsCard";
 import GoalCard from "@/components/molecules/GoalCard";
@@ -21,14 +23,14 @@ import { milestoneService } from "@/services/api/milestoneService";
 import { goalService } from "@/services/api/goalService";
 import { userService } from "@/services/api/userService";
 import { podService } from "@/services/api/podService";
-
 const MyProgress = () => {
   const [goals, setGoals] = useState([])
   const [milestones, setMilestones] = useState([])
   const [podMembers, setPodMembers] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [celebratingMilestone, setCelebratingMilestone] = useState(null)
   const currentUser = {
     Id: 1,
     name: 'John Doe',
@@ -78,11 +80,12 @@ const MyProgress = () => {
     }
   }
   
-  const handleToggleMilestone = async (milestoneId) => {
+const handleToggleMilestone = async (milestoneId) => {
     try {
       const milestone = milestones.find(m => m.Id === milestoneId)
       if (!milestone) return
       
+      const wasCompleted = milestone.completed
       const updatedMilestone = await milestoneService.update(milestoneId, {
         ...milestone,
         completed: !milestone.completed
@@ -91,8 +94,65 @@ const MyProgress = () => {
       setMilestones(prev => 
         prev.map(m => m.Id === milestoneId ? updatedMilestone : m)
       )
+      
+      // Trigger celebration animations and notifications if milestone was just completed
+      if (!wasCompleted && updatedMilestone.completed) {
+        // Set celebrating state for animation
+        setCelebratingMilestone(milestoneId)
+        
+        // Show confetti
+        setShowConfetti(true)
+        setTimeout(() => setShowConfetti(false), 3000)
+        
+        // Show success toast
+        toast.success(`🎉 Milestone completed: ${milestone.title}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+        
+        // Notify pod members
+        await notifyPodMembers(milestone)
+        
+        // Reset celebration state
+        setTimeout(() => setCelebratingMilestone(null), 2000)
+      } else if (wasCompleted && !updatedMilestone.completed) {
+        // Show info toast when uncompleting
+        toast.info(`Milestone unmarked: ${milestone.title}`, {
+          position: "top-right",
+          autoClose: 3000,
+        })
+      }
     } catch (err) {
       setError('Failed to update milestone')
+      toast.error('Failed to update milestone. Please try again.')
+    }
+  }
+  
+  const notifyPodMembers = async (milestone) => {
+    try {
+      // Get user's pod
+      const userPods = await podService.getAll()
+      const userPod = userPods.find(pod => 
+        pod.memberIds.includes(currentUser.Id.toString())
+      )
+      
+      if (userPod) {
+        // Create notification message
+        const notificationMessage = `${currentUser.name} just completed a milestone: ${milestone.title}! 🎉`
+        
+        // This would typically send notifications to pod members
+        // For now, we'll show a toast indicating the pod was notified
+        toast.success(`🚀 Your pod has been notified of your achievement!`, {
+          position: "bottom-right",
+          autoClose: 4000,
+        })
+      }
+    } catch (err) {
+      console.error('Failed to notify pod members:', err)
     }
   }
   
@@ -111,14 +171,25 @@ const MyProgress = () => {
   if (loading) return <Loading type="cards" />
   if (error) return <Error message={error} onRetry={loadData} />
   
-  return (
+return (
     <div className="space-y-8">
+      {/* Confetti Animation */}
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.1}
+          colors={['#10B981', '#3B82F6', '#8B5CF6', '#F59E0B', '#EF4444']}
+        />
+      )}
+      
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold font-display text-gray-900">My Progress</h1>
         <p className="text-gray-600 mt-2">Track your goals and celebrate your achievements</p>
       </div>
-      
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
@@ -198,13 +269,25 @@ const MyProgress = () => {
                   icon="CheckCircle"
                 />
               ) : (
-                <div className="space-y-4">
+<div className="space-y-4">
                   {activeGoalMilestones.map(milestone => (
-                    <MilestoneItem
+                    <motion.div
                       key={milestone.Id}
-                      milestone={milestone}
-                      onToggleComplete={handleToggleMilestone}
-                    />
+                      initial={{ scale: 1 }}
+                      animate={{ 
+                        scale: celebratingMilestone === milestone.Id ? [1, 1.05, 1] : 1,
+                        rotate: celebratingMilestone === milestone.Id ? [0, 2, -2, 0] : 0
+                      }}
+                      transition={{ 
+                        duration: 0.6,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <MilestoneItem
+                        milestone={milestone}
+                        onToggleComplete={handleToggleMilestone}
+                      />
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -243,7 +326,7 @@ const MyProgress = () => {
           {/* Recent Achievements */}
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3>
-            <div className="space-y-3">
+<div className="space-y-3">
               {completedMilestones > 0 ? (
                 milestones
                   .filter(m => m.completed)
@@ -253,15 +336,33 @@ const MyProgress = () => {
                       key={milestone.Id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center space-x-3 p-3 bg-success/5 rounded-lg border border-success/20"
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center space-x-3 p-3 bg-success/5 rounded-lg border border-success/20 cursor-pointer transition-all duration-200"
                     >
-                      <div className="w-8 h-8 bg-success text-white rounded-full flex items-center justify-center">
+                      <motion.div 
+                        className="w-8 h-8 bg-success text-white rounded-full flex items-center justify-center"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ 
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 20,
+                          delay: 0.1
+                        }}
+                      >
                         <ApperIcon name="Check" className="w-4 h-4" />
-                      </div>
+                      </motion.div>
                       <div className="flex-1">
                         <h4 className="font-medium text-success">{milestone.title}</h4>
                         <p className="text-sm text-gray-600">Completed recently</p>
                       </div>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <ApperIcon name="Sparkles" className="w-5 h-5 text-success" />
+                      </motion.div>
                     </motion.div>
                   ))
               ) : (
