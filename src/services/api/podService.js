@@ -121,7 +121,83 @@ async update(id, podData) {
     if (score >= 0.9) return "Excellent match based on your preferences"
     if (score >= 0.8) return "Strong compatibility with pod members"
     if (score >= 0.7) return "Good alignment with your goals and style"
-    if (score >= 0.6) return "Potential good fit with some shared interests"
+if (score >= 0.6) return "Potential good fit with some shared interests"
     return "Compatible group with room to grow together"
+  },
+
+  async getAIInsights(podId) {
+    await delay(350)
+    
+    const pod = mockPods.find(p => p.Id.toString() === podId.toString())
+    if (!pod) {
+      throw new Error('Pod not found')
+    }
+
+    // Simulate AI analysis of pod dynamics
+    const memberCount = pod.memberIds.length
+    const achievementRate = pod.totalAchievements || 0
+    
+    // Generate insights based on pod characteristics
+    const insightTemplates = {
+      high_performing: [
+        "Your pod is demonstrating exceptional collective momentum.",
+        "The synergy between pod members is creating accelerated progress.",
+        "Your group's accountability dynamic is particularly effective."
+      ],
+      growing: [
+        "Your pod is building solid foundations for long-term success.",
+        "The progress patterns show steady, sustainable advancement.",
+        "Your group is developing strong mutual support systems."
+      ],
+      developing: [
+        "Your pod has excellent potential for breakthrough moments.",
+        "The diverse goals in your group create rich learning opportunities.",
+        "Your collective journey is just beginning to show its true potential."
+      ]
+    }
+    
+    // Determine pod performance level
+    let performanceLevel = 'developing'
+    if (achievementRate > 12) performanceLevel = 'high_performing'
+    else if (achievementRate > 6) performanceLevel = 'growing'
+    
+    const templates = insightTemplates[performanceLevel]
+    const selectedInsight = templates[Math.floor(Math.random() * templates.length)]
+    
+    // Generate personalized recommendations
+    const recommendations = [
+      "Consider setting a weekly pod challenge to boost engagement",
+      "Try sharing weekly wins and learnings with each other",
+      "Schedule brief check-in calls to maintain momentum",
+      "Create shared milestones to celebrate together",
+      "Rotate who leads weekly motivation themes"
+    ]
+    
+    const personalizedMessage = recommendations[Math.floor(Math.random() * recommendations.length)]
+    
+    return {
+      performanceLevel,
+      insights: selectedInsight,
+      personalizedMessage,
+      recommendations: recommendations.slice(0, 3),
+      podStrengths: this.analyzePodStrengths(memberCount, achievementRate),
+      confidenceScore: 0.82 + Math.random() * 0.15,
+      generatedAt: new Date().toISOString()
+    }
+  },
+
+  analyzePodStrengths(memberCount, achievements) {
+    const strengths = []
+    
+    if (memberCount >= 3) strengths.push("Diverse perspectives and support network")
+    if (achievements > 10) strengths.push("Strong track record of goal completion")
+    if (memberCount === 4) strengths.push("Optimal size for balanced accountability")
+    
+    // Always include at least one strength
+    if (strengths.length === 0) {
+      strengths.push("Commitment to mutual growth and support")
+    }
+    
+    return strengths
   }
 }

@@ -6,19 +6,22 @@ import Card from '@/components/atoms/Card';
 import { milestoneService } from '@/services/api/milestoneService';
 import { goalService } from '@/services/api/goalService';
 
-const InsightsPanel = ({ goals, milestones, currentUser }) => {
+const InsightsPanel = ({ goals, milestones, currentUser, podId = 'pod1' }) => {
   const [trendData, setTrendData] = useState([]);
   const [predictions, setPredictions] = useState({});
   const [activityData, setActivityData] = useState([]);
+  const [aiInsights, setAiInsights] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     loadInsightsData();
   }, [goals, milestones]);
 
-  const loadInsightsData = async () => {
+const loadInsightsData = async () => {
     try {
       setLoading(true);
+      
+      // Import AI assistant service
+      const { aiAssistantService } = await import('@/services/api/aiAssistantService');
       
       // Get trend data for charts
       const trends = await milestoneService.getTrendData(currentUser.Id);
@@ -31,6 +34,10 @@ const InsightsPanel = ({ goals, milestones, currentUser }) => {
       // Get activity patterns
       const activity = await goalService.getActivityTrends(currentUser.Id);
       setActivityData(activity);
+      
+      // Get AI-generated pod insights
+      const aiPodInsights = await aiAssistantService.getPodMentorSummary(podId);
+      setAiInsights(aiPodInsights);
       
     } catch (error) {
       console.error('Failed to load insights data:', error);
@@ -322,11 +329,86 @@ const InsightsPanel = ({ goals, milestones, currentUser }) => {
               <span className="text-sm font-medium text-warning">Focus</span>
             </div>
             <p className="text-sm text-gray-600">
-              Consider focusing on {predictions.focusArea || 'milestone completion'}
+Consider focusing on {predictions.focusArea || 'milestone completion'}
             </p>
           </motion.div>
         </div>
       </Card>
+
+      {/* AI Mentor Insights */}
+      {aiInsights && (
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">AI Mentor Insights</h3>
+            <div className="flex items-center space-x-2">
+              <ApperIcon name="Brain" size={16} className="text-primary" />
+              <span className="text-sm text-gray-600">Powered by AI</span>
+            </div>
+          </div>
+          
+          <div className="space-y-6">
+            {/* Daily Summary */}
+            <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <div className="flex items-center space-x-2 mb-3">
+                <ApperIcon name="MessageSquare" size={16} className="text-primary" />
+                <span className="text-sm font-medium text-primary">Pod Daily Summary</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {aiInsights.dailySummary.summary}
+              </p>
+              {aiInsights.dailySummary.highlightedMembers?.length > 0 && (
+                <div className="mt-3 flex items-center space-x-2">
+                  <ApperIcon name="Star" size={14} className="text-warning" />
+                  <span className="text-xs text-gray-600">
+                    Highlighted: {aiInsights.dailySummary.highlightedMembers.join(', ')}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Focus Theme Recommendation */}
+            <div className="p-4 bg-success/5 rounded-lg border border-success/20">
+              <div className="flex items-center space-x-2 mb-3">
+                <ApperIcon name="Target" size={16} className="text-success" />
+                <span className="text-sm font-medium text-success">Suggested Focus Theme</span>
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold text-gray-900">
+                  {aiInsights.focusThemes.primaryTheme.theme}
+                </h4>
+                <p className="text-sm text-gray-700">
+                  {aiInsights.focusThemes.primaryTheme.description}
+                </p>
+                <p className="text-xs text-gray-500 italic">
+                  {aiInsights.focusThemes.primaryTheme.reason}
+                </p>
+              </div>
+            </div>
+
+            {/* Inspirational Insight */}
+            <div className="p-4 bg-warning/5 rounded-lg border border-warning/20">
+              <div className="flex items-center space-x-2 mb-3">
+                <ApperIcon name="Lightbulb" size={16} className="text-warning" />
+                <span className="text-sm font-medium text-warning">Inspirational Insight</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                {aiInsights.inspiration.insight}
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <ApperIcon name="Zap" size={14} className="text-primary" />
+                  <span className="text-xs font-medium text-primary">
+                    Action: {aiInsights.inspiration.actionSuggestion}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-500">
+                  AI Confidence: {Math.round((aiInsights.inspiration.confidence || 0.8) * 100)}%
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
     </div>
   );
 };

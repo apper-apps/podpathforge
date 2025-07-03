@@ -131,7 +131,49 @@ async create(userData) {
       'evening': ['flexible', 'morning'],
       'flexible': ['morning', 'evening', 'weekend'],
       'weekend': ['flexible']
-    }
+}
     return compatibilityMap[avail1]?.includes(avail2) || false
+  },
+
+  async getPodMemberProgress(podId) {
+    await delay(300)
+    
+    // Get pod members and their progress patterns
+    const podMemberIds = ['1', '2', '3', '4'] // Mock pod member IDs
+    const memberProgress = []
+    
+    for (const memberId of podMemberIds) {
+      const member = mockUsers.find(u => u.Id.toString() === memberId)
+      if (member) {
+        // Simulate progress tracking
+        const weeklyProgress = Math.floor(Math.random() * 40) + 30
+        const streakLength = member.currentStreak || Math.floor(Math.random() * 14) + 1
+        const engagementLevel = Math.random() > 0.7 ? 'high' : Math.random() > 0.4 ? 'medium' : 'low'
+        
+        memberProgress.push({
+          userId: member.Id,
+          name: member.name,
+          weeklyProgress,
+          streakLength,
+          engagementLevel,
+          lastActive: new Date().toISOString()
+        })
+      }
+    }
+    
+    // Calculate pod-wide metrics
+    const avgProgress = memberProgress.reduce((sum, m) => sum + m.weeklyProgress, 0) / memberProgress.length
+    const avgStreak = memberProgress.reduce((sum, m) => sum + m.streakLength, 0) / memberProgress.length
+    
+    return {
+      members: memberProgress,
+      podMetrics: {
+        averageWeeklyProgress: Math.round(avgProgress),
+        averageStreak: Math.round(avgStreak),
+        highEngagementCount: memberProgress.filter(m => m.engagementLevel === 'high').length,
+        totalMembers: memberProgress.length
+      },
+      generatedAt: new Date().toISOString()
+    }
   }
 }

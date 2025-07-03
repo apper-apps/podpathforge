@@ -97,8 +97,68 @@ return true
         weekData.push(activity)
       }
       activityData.push(weekData)
-    }
+}
     
     return activityData
+  },
+
+  async getPodTrends(podId) {
+    await delay(300)
+    
+    // Simulate pod-level trend analysis
+    const trendTypes = ['positive', 'accelerating', 'steady', 'building']
+    const momentum = trendTypes[Math.floor(Math.random() * trendTypes.length)]
+    
+    // Calculate collective progress patterns
+    const weeklyProgress = []
+    for (let week = 0; week < 4; week++) {
+      weeklyProgress.push({
+        week: week + 1,
+        completions: Math.floor(Math.random() * 8) + 2,
+        engagement: Math.floor(Math.random() * 30) + 70,
+        goalAdvancement: Math.floor(Math.random() * 25) + 15
+      })
+    }
+    
+    return {
+      momentum,
+      weeklyProgress,
+      podSize: 4,
+      averageProgress: Math.floor(Math.random() * 20) + 60,
+      trendDirection: Math.random() > 0.3 ? 'upward' : 'stable'
+    }
+  },
+
+  async generateFocusThemes(podId) {
+    await delay(250)
+    
+    // Analyze pod goals to suggest relevant themes
+    const podGoals = mockGoals.filter(g => ['1', '2', '3', '4'].includes(g.userId))
+    const categories = podGoals.map(g => g.category)
+    const predominantCategory = categories.length > 0 ? categories[0] : 'personal'
+    
+    const themesByCategory = {
+      professional: {
+        challenge: "Skill Sprint Week - Focus on one key professional skill",
+        themes: ['career advancement', 'skill building', 'networking']
+      },
+      health: {
+        challenge: "Wellness Warrior Week - Prioritize physical and mental health",
+        themes: ['fitness consistency', 'nutrition focus', 'stress management']
+      },
+      personal: {
+        challenge: "Growth Mindset Week - Embrace learning and development",
+        themes: ['habit formation', 'learning acceleration', 'personal projects']
+      }
+    }
+    
+    const categoryThemes = themesByCategory[predominantCategory] || themesByCategory.personal
+    
+    return {
+      challenge: categoryThemes.challenge,
+      suggestedThemes: categoryThemes.themes,
+      podCategory: predominantCategory,
+      participationRate: Math.floor(Math.random() * 30) + 70
+    }
   }
 }

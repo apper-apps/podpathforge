@@ -7,12 +7,107 @@ import ChallengeVotingCard from "@/components/molecules/ChallengeVotingCard";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
 import { updateService } from "@/services/api/updateService";
 import { goalService } from "@/services/api/goalService";
 import { userService } from "@/services/api/userService";
 import { reactionService } from "@/services/api/reactionService";
 import { challengeVotingService } from "@/services/api/challengeVotingService";
 import { toast } from "react-toastify";
+
+// AI Assistant Component
+const AIAssistantCard = ({ podId }) => {
+  const [aiData, setAiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadAIData();
+  }, [podId]);
+
+  const loadAIData = async () => {
+    try {
+      const { aiAssistantService } = await import('@/services/api/aiAssistantService');
+      const mentorSummary = await aiAssistantService.getPodMentorSummary(podId);
+      setAiData(mentorSummary);
+    } catch (error) {
+      console.error('Failed to load AI data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <div className="flex items-center space-x-2 mb-4">
+          <div className="w-4 h-4 bg-primary rounded-full animate-pulse"></div>
+          <span className="text-gray-600">AI Assistant</span>
+        </div>
+        <div className="space-y-2">
+          <div className="h-3 bg-gray-200 rounded animate-pulse"></div>
+          <div className="h-3 bg-gray-200 rounded animate-pulse w-3/4"></div>
+        </div>
+      </Card>
+    );
+  }
+
+  if (!aiData) return null;
+
+  return (
+    <Card className="p-6 bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/20">
+      <div className="flex items-center space-x-2 mb-4">
+        <ApperIcon name="Brain" size={20} className="text-primary" />
+        <h3 className="text-lg font-semibold text-gray-900">Pod AI Assistant</h3>
+      </div>
+      
+      {/* Daily Summary */}
+      <div className="space-y-4">
+        <div>
+          <div className="flex items-center space-x-2 mb-2">
+            <ApperIcon name="MessageSquare" size={16} className="text-secondary" />
+            <span className="text-sm font-medium text-secondary">Today's Summary</span>
+          </div>
+          <p className="text-sm text-gray-700 leading-relaxed">
+            {aiData.dailySummary.summary}
+          </p>
+        </div>
+
+        {/* Focus Theme */}
+        <div className="pt-4 border-t border-gray-100">
+          <div className="flex items-center space-x-2 mb-2">
+            <ApperIcon name="Target" size={16} className="text-success" />
+            <span className="text-sm font-medium text-success">Focus Theme</span>
+          </div>
+          <div className="bg-white/50 rounded-lg p-3">
+            <h4 className="text-sm font-semibold text-gray-900 mb-1">
+              {aiData.focusThemes.primaryTheme.theme}
+            </h4>
+            <p className="text-xs text-gray-600">
+              {aiData.focusThemes.primaryTheme.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Inspiration */}
+        <div className="pt-4 border-t border-gray-100">
+          <div className="flex items-center space-x-2 mb-2">
+            <ApperIcon name="Lightbulb" size={16} className="text-warning" />
+            <span className="text-sm font-medium text-warning">Daily Insight</span>
+          </div>
+          <p className="text-sm text-gray-700 italic">
+            {aiData.inspiration.insight}
+          </p>
+          {aiData.inspiration.actionSuggestion && (
+            <div className="mt-2 p-2 bg-warning/10 rounded text-xs text-gray-600">
+              💡 Try this: {aiData.inspiration.actionSuggestion}
+            </div>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
+};
 export default function PodFeed() {
   const [updates, setUpdates] = useState([])
   const [reactions, setReactions] = useState([])
@@ -330,12 +425,15 @@ try {
 </div>
           </div>
           
-          {/* Challenge Voting */}
+{/* Challenge Voting */}
           <ChallengeVotingCard 
             challenges={challenges}
             currentUser={currentUser}
             onVote={handleChallengeVote}
           />
+          
+          {/* AI Assistant */}
+          <AIAssistantCard podId="pod1" />
           
           {/* Motivational Quote */}
           <div className="bg-gradient-secondary rounded-xl p-6 text-white">
