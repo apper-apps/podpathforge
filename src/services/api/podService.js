@@ -138,7 +138,7 @@ async getAIInsights(podId) {
       throw new Error('Pod ID cannot be empty')
     }
     
-    // Enhanced pod lookup with multiple comparison strategies
+// Enhanced pod lookup with multiple comparison strategies
     const pod = mockPods.find(p => {
       if (!p || (!p.id && p.id !== 0)) return false
       
@@ -150,6 +150,15 @@ async getAIInsights(podId) {
       const searchIdStr = String(podId).trim()
       if (podIdStr === searchIdStr) return true
       
+      // Handle "pod1" format - extract numeric part
+      const podIdMatch = String(podId).match(/^pod(\d+)$/i)
+      if (podIdMatch) {
+        const extractedId = parseInt(podIdMatch[1], 10)
+        if (!isNaN(extractedId) && (p.id === extractedId || String(p.id) === String(extractedId))) {
+          return true
+        }
+      }
+      
       // Try numeric comparison if both can be converted to numbers
       const podIdNum = Number(p.id)
       const searchIdNum = Number(podId)
@@ -160,13 +169,30 @@ async getAIInsights(podId) {
     
     if (!pod) {
       const availableIds = mockPods.map(p => p.id).filter(id => id !== undefined && id !== null)
+      
+      // Enhanced error message with suggestions
+      let errorMessage = `Pod not found with ID: ${podId}`
+      
+      // Check if it's a "pod1" format issue
+      const podIdMatch = String(podId).match(/^pod(\d+)$/i)
+      if (podIdMatch) {
+        const extractedId = parseInt(podIdMatch[1], 10)
+        if (!isNaN(extractedId) && availableIds.includes(extractedId)) {
+          errorMessage += `. Did you mean to use numeric ID ${extractedId} instead of "${podId}"?`
+        }
+      }
+      
+      errorMessage += `. Available pod IDs: ${availableIds.join(', ')}`
+      
       console.error('Pod lookup failed:', {
         searchId: podId,
         searchIdType: typeof podId,
         availableIds: availableIds,
-        totalPods: mockPods.length
+        totalPods: mockPods.length,
+        suggestion: podIdMatch ? `Try using numeric ID ${parseInt(podIdMatch[1], 10)}` : 'Ensure ID matches available pods'
       })
-      throw new Error(`Pod not found with ID: ${podId}. Available pod IDs: ${availableIds.join(', ')}`)
+      
+      throw new Error(errorMessage)
     }
     // Simulate AI analysis of pod dynamics
     const memberCount = pod.memberIds?.length || 0
