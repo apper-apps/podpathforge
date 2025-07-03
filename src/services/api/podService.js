@@ -133,11 +133,41 @@ async getAIInsights(podId) {
       throw new Error('Pod ID is required for AI insights generation')
     }
     
-    const pod = mockPods.find(p => p.id?.toString() === podId?.toString())
-    if (!pod) {
-      throw new Error(`Pod not found with ID: ${podId}`)
+    // Validate podId is not empty string
+    if (typeof podId === 'string' && podId.trim() === '') {
+      throw new Error('Pod ID cannot be empty')
     }
-
+    
+    // Enhanced pod lookup with multiple comparison strategies
+    const pod = mockPods.find(p => {
+      if (!p || (!p.id && p.id !== 0)) return false
+      
+      // Try exact match first
+      if (p.id === podId) return true
+      
+      // Try string comparison
+      const podIdStr = String(p.id).trim()
+      const searchIdStr = String(podId).trim()
+      if (podIdStr === searchIdStr) return true
+      
+      // Try numeric comparison if both can be converted to numbers
+      const podIdNum = Number(p.id)
+      const searchIdNum = Number(podId)
+      if (!isNaN(podIdNum) && !isNaN(searchIdNum) && podIdNum === searchIdNum) return true
+      
+      return false
+    })
+    
+    if (!pod) {
+      const availableIds = mockPods.map(p => p.id).filter(id => id !== undefined && id !== null)
+      console.error('Pod lookup failed:', {
+        searchId: podId,
+        searchIdType: typeof podId,
+        availableIds: availableIds,
+        totalPods: mockPods.length
+      })
+      throw new Error(`Pod not found with ID: ${podId}. Available pod IDs: ${availableIds.join(', ')}`)
+    }
     // Simulate AI analysis of pod dynamics
     const memberCount = pod.memberIds?.length || 0
     const achievementRate = pod.totalAchievements || 0
