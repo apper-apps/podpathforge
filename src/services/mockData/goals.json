@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "userId": "1",
+    "title": "Launch My Online Course",
+    "category": "professional",
+    "description": "Create and launch a comprehensive online course about web development fundamentals, targeting beginners who want to start their coding journey.",
+    "targetDate": "2024-06-15T00:00:00.000Z",
+    "createdDate": "2024-01-15T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "Id": 2,
+    "userId": "1",
+    "title": "Run a Half Marathon",
+    "category": "health",
+    "description": "Train consistently to complete a half marathon (13.1 miles) in under 2 hours, improving my overall fitness and endurance.",
+    "targetDate": "2024-05-20T00:00:00.000Z",
+    "createdDate": "2024-01-20T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "Id": 3,
+    "userId": "2",
+    "title": "Learn Spanish Conversational Level",
+    "category": "personal",
+    "description": "Achieve conversational fluency in Spanish to communicate effectively during my upcoming trip to Spain and for career advancement.",
+    "targetDate": "2024-07-01T00:00:00.000Z",
+    "createdDate": "2024-01-18T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "Id": 4,
+    "userId": "3",
+    "title": "Get AWS Cloud Certification",
+    "category": "professional",
+    "description": "Obtain AWS Solutions Architect Associate certification to advance my cloud computing career and increase my market value.",
+    "targetDate": "2024-04-30T00:00:00.000Z",
+    "createdDate": "2024-01-22T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "Id": 5,
+    "userId": "4",
+    "title": "Write a Fiction Novel",
+    "category": "personal",
+    "description": "Complete writing my first fiction novel of at least 80,000 words, focusing on a mystery thriller set in a small coastal town.",
+    "targetDate": "2024-12-31T00:00:00.000Z",
+    "createdDate": "2024-01-25T00:00:00.000Z",
+    "status": "active"
+  }
+]

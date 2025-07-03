@@ -1,0 +1,100 @@
+[
+  {
+    "Id": 1,
+    "updateId": 1,
+    "userId": "1",
+    "type": "👏",
+    "timestamp": "2024-01-28T15:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "updateId": 1,
+    "userId": "3",
+    "type": "🔥",
+    "timestamp": "2024-01-28T15:15:00.000Z"
+  },
+  {
+    "Id": 3,
+    "updateId": 1,
+    "userId": "4",
+    "type": "💪",
+    "timestamp": "2024-01-28T15:30:00.000Z"
+  },
+  {
+    "Id": 4,
+    "updateId": 2,
+    "userId": "1",
+    "type": "💪",
+    "timestamp": "2024-01-28T10:45:00.000Z"
+  },
+  {
+    "Id": 5,
+    "updateId": 2,
+    "userId": "2",
+    "type": "👏",
+    "timestamp": "2024-01-28T11:00:00.000Z"
+  },
+  {
+    "Id": 6,
+    "updateId": 3,
+    "userId": "1",
+    "type": "🎉",
+    "timestamp": "2024-01-27T21:00:00.000Z"
+  },
+  {
+    "Id": 7,
+    "updateId": 3,
+    "userId": "2",
+    "type": "👏",
+    "timestamp": "2024-01-27T21:15:00.000Z"
+  },
+  {
+    "Id": 8,
+    "updateId": 3,
+    "userId": "3",
+    "type": "🔥",
+    "timestamp": "2024-01-27T21:30:00.000Z"
+  },
+  {
+    "Id": 9,
+    "updateId": 4,
+    "userId": "2",
+    "type": "🎉",
+    "timestamp": "2024-01-27T16:45:00.000Z"
+  },
+  {
+    "Id": 10,
+    "updateId": 4,
+    "userId": "3",
+    "type": "👏",
+    "timestamp": "2024-01-27T17:00:00.000Z"
+  },
+  {
+    "Id": 11,
+    "updateId": 5,
+    "userId": "1",
+    "type": "🔥",
+    "timestamp": "2024-01-26T18:30:00.000Z"
+  },
+  {
+    "Id": 12,
+    "updateId": 5,
+    "userId": "4",
+    "type": "💪",
+    "timestamp": "2024-01-26T18:45:00.000Z"
+  },
+  {
+    "Id": 13,
+    "updateId": 6,
+    "userId": "2",
+    "type": "👏",
+    "timestamp": "2024-01-26T22:00:00.000Z"
+  },
+  {
+    "Id": 14,
+    "updateId": 6,
+    "userId": "4",
+    "type": "🔥",
+    "timestamp": "2024-01-26T22:15:00.000Z"
+  }
+]

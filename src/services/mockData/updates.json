@@ -1,0 +1,62 @@
+[
+  {
+    "Id": 1,
+    "userId": "2",
+    "podId": "1",
+    "content": "Just finished my second Spanish lesson today! The verb conjugations are challenging but I'm making progress. Practiced with a native speaker on a language exchange app for 30 minutes.",
+    "imageUrl": "",
+    "progress": 25,
+    "milestoneId": "",
+    "timestamp": "2024-01-28T14:30:00.000Z"
+  },
+  {
+    "Id": 2,
+    "userId": "3",
+    "podId": "1",
+    "content": "Completed another AWS practice exam and scored 78%! Getting closer to the passing grade. The networking section is still my weak spot, so I'm focusing on that this week.",
+    "imageUrl": "",
+    "progress": 65,
+    "milestoneId": "",
+    "timestamp": "2024-01-28T10:15:00.000Z"
+  },
+  {
+    "Id": 3,
+    "userId": "4",
+    "podId": "1",
+    "content": "Hit a writing milestone today - 15,000 words completed on my novel! The mystery is really taking shape. My characters are developing in ways I didn't expect.",
+    "imageUrl": "",
+    "progress": 35,
+    "milestoneId": "",
+    "timestamp": "2024-01-27T20:45:00.000Z"
+  },
+  {
+    "Id": 4,
+    "userId": "1",
+    "podId": "1",
+    "content": "Recorded the first module of my online course today! It took longer than expected but I'm happy with the quality. The lighting and audio setup is finally working well.",
+    "imageUrl": "",
+    "progress": 40,
+    "milestoneId": "2",
+    "timestamp": "2024-01-27T16:20:00.000Z"
+  },
+  {
+    "Id": 5,
+    "userId": "2",
+    "podId": "1",
+    "content": "Had my first full Spanish conversation today! It was only 10 minutes but we covered basic topics like family, work, and hobbies. Feeling so motivated to continue!",
+    "imageUrl": "",
+    "progress": 30,
+    "milestoneId": "",
+    "timestamp": "2024-01-26T18:00:00.000Z"
+  },
+  {
+    "Id": 6,
+    "userId": "3",
+    "podId": "1",
+    "content": "Spent 4 hours today deep-diving into AWS VPC configurations. Finally understanding how subnets and routing tables work together. The concepts are clicking!",
+    "imageUrl": "",
+    "progress": 60,
+    "milestoneId": "",
+    "timestamp": "2024-01-26T21:30:00.000Z"
+  }
+]

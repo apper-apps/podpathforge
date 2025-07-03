@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "goalId": 1,
+    "title": "Define Course Outline and Structure",
+    "description": "Create a detailed course outline with modules, lessons, and learning objectives for the web development course.",
+    "order": 1,
+    "dueDate": "2024-02-15T00:00:00.000Z",
+    "completed": true
+  },
+  {
+    "Id": 2,
+    "goalId": 1,
+    "title": "Record First 3 Modules",
+    "description": "Create and record video content for the first three modules covering HTML, CSS, and JavaScript basics.",
+    "order": 2,
+    "dueDate": "2024-03-15T00:00:00.000Z",
+    "completed": true
+  },
+  {
+    "Id": 3,
+    "goalId": 1,
+    "title": "Create Course Materials and Resources",
+    "description": "Develop downloadable resources, code examples, and practice exercises for each module.",
+    "order": 3,
+    "dueDate": "2024-04-01T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 4,
+    "goalId": 1,
+    "title": "Set Up Course Platform",
+    "description": "Choose and configure the online learning platform, upload content, and set up payment processing.",
+    "order": 4,
+    "dueDate": "2024-05-01T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 5,
+    "goalId": 1,
+    "title": "Launch Marketing Campaign",
+    "description": "Create and execute a marketing strategy including social media, email campaigns, and content marketing.",
+    "order": 5,
+    "dueDate": "2024-06-01T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 6,
+    "goalId": 2,
+    "title": "Establish Base Running Routine",
+    "description": "Build a consistent running schedule of 3-4 times per week, starting with 3-mile runs.",
+    "order": 1,
+    "dueDate": "2024-02-15T00:00:00.000Z",
+    "completed": true
+  },
+  {
+    "Id": 7,
+    "goalId": 2,
+    "title": "Complete First 10K Run",
+    "description": "Successfully complete a 10K (6.2 mile) run without stopping, building endurance progressively.",
+    "order": 2,
+    "dueDate": "2024-03-15T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 8,
+    "goalId": 2,
+    "title": "Increase Weekly Mileage",
+    "description": "Build up to running 20-25 miles per week while maintaining proper form and preventing injury.",
+    "order": 3,
+    "dueDate": "2024-04-15T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 9,
+    "goalId": 2,
+    "title": "Complete 15-Mile Long Run",
+    "description": "Successfully complete a 15-mile training run to prepare for the half marathon distance.",
+    "order": 4,
+    "dueDate": "2024-05-01T00:00:00.000Z",
+    "completed": false
+  },
+  {
+    "Id": 10,
+    "goalId": 2,
+    "title": "Taper and Race Preparation",
+    "description": "Reduce training volume, focus on race strategy, and prepare mentally for the half marathon event.",
+    "order": 5,
+    "dueDate": "2024-05-15T00:00:00.000Z",
+    "completed": false
+  }
+]
