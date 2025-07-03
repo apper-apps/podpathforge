@@ -22,10 +22,16 @@ export default function PodFeed() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   
-  const currentUser = {
+const currentUser = {
     Id: 1,
     name: 'John Doe',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john-doe'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john-doe',
+    onboardingPreferences: {
+      coachingStyle: 'growth-focused',
+      availability: 'flexible',
+      goalThemes: ['fitness', 'habit-building'],
+      completedOnboarding: true
+    }
   }
   
   useEffect(() => {
@@ -151,8 +157,69 @@ try {
     return reactions.filter(r => r.updateId === updateId)
   }
   
-  // Get pod members (excluding current user)
-  const podMembers = users.filter(u => u.Id !== currentUser.Id).slice(0, 4)
+// Get pod members (excluding current user) with compatibility scores
+  const podMembers = users
+    .filter(u => u.Id !== currentUser.Id)
+    .slice(0, 4)
+    .map(member => ({
+      ...member,
+      compatibilityScore: currentUser.onboardingPreferences && member.onboardingPreferences
+        ? calculateMemberCompatibility(currentUser.onboardingPreferences, member.onboardingPreferences)
+        : null
+    }))
+
+  const calculateMemberCompatibility = (userPrefs, memberPrefs) => {
+    if (!userPrefs || !memberPrefs) return null
+    
+    let score = 0
+    let weight = 0
+
+    // Coaching style match (40%)
+    if (userPrefs.coachingStyle === memberPrefs.coachingStyle) {
+      score += 0.4
+    } else if (isCoachingCompatible(userPrefs.coachingStyle, memberPrefs.coachingStyle)) {
+      score += 0.28
+    }
+    weight += 0.4
+
+    // Availability match (30%)
+    if (userPrefs.availability === memberPrefs.availability) {
+      score += 0.3
+    } else if (isAvailabilityCompatible(userPrefs.availability, memberPrefs.availability)) {
+      score += 0.24
+    }
+    weight += 0.3
+
+    // Goal themes overlap (30%)
+    const commonGoals = userPrefs.goalThemes?.filter(theme => 
+      memberPrefs.goalThemes?.includes(theme)
+    ) || []
+    if (commonGoals.length > 0) {
+      score += 0.3 * (commonGoals.length / Math.max(userPrefs.goalThemes?.length || 1, memberPrefs.goalThemes?.length || 1))
+    }
+    weight += 0.3
+
+    return weight > 0 ? score / weight : 0
+  }
+
+  const isCoachingCompatible = (style1, style2) => {
+    const compatibilityMap = {
+      'gentle': ['growth-focused'],
+      'growth-focused': ['gentle', 'direct'],
+      'direct': ['growth-focused']
+    }
+    return compatibilityMap[style1]?.includes(style2) || false
+  }
+
+  const isAvailabilityCompatible = (avail1, avail2) => {
+    const compatibilityMap = {
+      'morning': ['flexible', 'evening'],
+      'evening': ['flexible', 'morning'],
+      'flexible': ['morning', 'evening', 'weekend'],
+      'weekend': ['flexible']
+    }
+    return compatibilityMap[avail1]?.includes(avail2) || false
+  }
   if (loading) return <Loading type="feed" />
   if (error) return <Error message={error} onRetry={loadData} />
   
@@ -214,13 +281,28 @@ try {
             ) : (
               <div className="space-y-4">
                 {podMembers.map(member => (
-                  <PodMemberCard
-                    key={member.Id}
-                    member={member}
-                    goal={goals.find(g => g.userId === member.Id.toString())}
-                    currentStreak={member.currentStreak}
-                    online={Math.random() > 0.5}
-                  />
+<div key={member.Id} className="relative">
+                    <PodMemberCard
+                      member={member}
+                      goal={goals.find(g => g.userId === member.Id.toString())}
+                      currentStreak={member.currentStreak}
+                      online={Math.random() > 0.5}
+                    />
+                    {member.compatibilityScore !== null && (
+                      <div className="absolute top-2 right-2">
+                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          member.compatibilityScore >= 0.8 
+                            ? 'bg-success/20 text-success' 
+                            : member.compatibilityScore >= 0.6 
+                            ? 'bg-warning/20 text-warning'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}>
+                          {member.compatibilityScore >= 0.8 ? 'Great Match' : 
+                           member.compatibilityScore >= 0.6 ? 'Good Match' : 'Compatible'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             )}

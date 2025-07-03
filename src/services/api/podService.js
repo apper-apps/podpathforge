@@ -60,5 +60,68 @@ async update(id, podData) {
     
     mockPods.splice(index, 1)
     return true
+},
+
+  async findCompatiblePods(userId, userPreferences) {
+    await delay(400)
+    const allPods = [...mockPods]
+    
+    const podsWithScores = await Promise.all(
+      allPods.map(async pod => {
+        const compatibilityScore = await this.calculatePodCompatibility(userId, pod, userPreferences)
+        return {
+          ...pod,
+          compatibilityScore
+        }
+      })
+    )
+
+    return podsWithScores
+      .filter(pod => pod.compatibilityScore > 0.5)
+      .sort((a, b) => b.compatibilityScore - a.compatibilityScore)
+  },
+
+  async calculatePodCompatibility(userId, pod, userPreferences) {
+    if (!pod.memberIds || pod.memberIds.length === 0) return 0.8 // New pods get good score
+
+    // Import userService to access user data
+    const { userService } = await import('./userService.js')
+    
+    try {
+      const memberCompatibilities = await Promise.all(
+        pod.memberIds.map(async memberId => {
+          const member = await userService.getById(memberId)
+          return userService.calculateCompatibility(userPreferences, member.onboardingPreferences)
+        })
+      )
+
+      const avgCompatibility = memberCompatibilities.reduce((sum, score) => sum + score, 0) / memberCompatibilities.length
+      
+      // Bonus for pods with 2-4 members (ideal size)
+      const sizeBonus = pod.memberIds.length >= 2 && pod.memberIds.length <= 4 ? 0.1 : 0
+      
+      return Math.min(avgCompatibility + sizeBonus, 1.0)
+    } catch (error) {
+      console.error('Error calculating pod compatibility:', error)
+      return 0.5 // Default compatibility score
+    }
+  },
+
+  async recommendPods(userId, userPreferences) {
+    await delay(300)
+    const compatiblePods = await this.findCompatiblePods(userId, userPreferences)
+    
+    return compatiblePods.slice(0, 5).map(pod => ({
+      ...pod,
+      recommendationReason: this.generateRecommendationReason(pod.compatibilityScore)
+    }))
+  },
+
+  generateRecommendationReason(score) {
+    if (score >= 0.9) return "Excellent match based on your preferences"
+    if (score >= 0.8) return "Strong compatibility with pod members"
+    if (score >= 0.7) return "Good alignment with your goals and style"
+    if (score >= 0.6) return "Potential good fit with some shared interests"
+    return "Compatible group with room to grow together"
   }
 }
