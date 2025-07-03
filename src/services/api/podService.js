@@ -128,13 +128,18 @@ if (score >= 0.6) return "Potential good fit with some shared interests"
 async getAIInsights(podId) {
     await delay(350)
     
-    const pod = mockPods.find(p => p.id.toString() === podId.toString())
+    // Validate podId parameter
+    if (!podId && podId !== 0) {
+      throw new Error('Pod ID is required for AI insights generation')
+    }
+    
+    const pod = mockPods.find(p => p.id?.toString() === podId?.toString())
     if (!pod) {
-      throw new Error('Pod not found')
+      throw new Error(`Pod not found with ID: ${podId}`)
     }
 
     // Simulate AI analysis of pod dynamics
-    const memberCount = pod.memberIds.length
+    const memberCount = pod.memberIds?.length || 0
     const achievementRate = pod.totalAchievements || 0
     
     // Generate insights based on pod characteristics
