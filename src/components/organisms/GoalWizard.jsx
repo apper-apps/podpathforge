@@ -5,9 +5,13 @@ import ApperIcon from '@/components/ApperIcon'
 import Card from '@/components/atoms/Card'
 import Button from '@/components/atoms/Button'
 import Input from '@/components/atoms/Input'
+import GoalTemplateBrowser from '@/components/organisms/GoalTemplateBrowser'
+import { goalTemplateService } from '@/services/api/goalTemplateService'
 
 const GoalWizard = ({ onComplete, onCancel }) => {
   const [currentStep, setCurrentStep] = useState(1)
+  const [showTemplateBrowser, setShowTemplateBrowser] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -76,15 +80,90 @@ const GoalWizard = ({ onComplete, onCancel }) => {
       status: 'active'
     }
     
-    onComplete(goalData)
+onComplete(goalData)
     toast.success('Goal created successfully!')
   }
+
+  const handleTemplateSelect = (template) => {
+    const goalData = goalTemplateService.convertToGoal(template)
+    setFormData(prev => ({
+      ...prev,
+      ...goalData
+    }))
+    setSelectedTemplate(template)
+    setShowTemplateBrowser(false)
+    setCurrentStep(2) // Skip to goal details step
+  }
+
+  const handleSkipTemplates = () => {
+    setShowTemplateBrowser(false)
+    setCurrentStep(2) // Go to goal details step
+  }
   
-  const steps = [
+const steps = [
+    {
+      title: 'Choose Your Starting Point',
+      content: (
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">How would you like to create your goal?</h3>
+            <p className="text-gray-600">Choose from professional templates or start from scratch</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setShowTemplateBrowser(true)}
+              className="p-6 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-all text-left"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <ApperIcon name="FileText" className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Use a Template</h4>
+                  <p className="text-sm text-gray-600 mt-1">Start with professionally crafted goal templates</p>
+                </div>
+              </div>
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleSkipTemplates}
+              className="p-6 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-all text-left"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <ApperIcon name="Plus" className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Start from Scratch</h4>
+                  <p className="text-sm text-gray-600 mt-1">Create a completely custom goal</p>
+                </div>
+              </div>
+            </motion.button>
+          </div>
+        </div>
+      )
+    },
     {
       title: 'Goal Details',
       content: (
         <div className="space-y-6">
+          {selectedTemplate && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center space-x-3">
+                <ApperIcon name="Info" className="w-5 h-5 text-blue-600" />
+                <div>
+                  <p className="text-sm font-medium text-blue-900">Using template: {selectedTemplate.title}</p>
+                  <p className="text-sm text-blue-600">You can customize all details below</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <Input
             label="Goal Title"
             value={formData.title}
@@ -149,11 +228,13 @@ const GoalWizard = ({ onComplete, onCancel }) => {
       )
     },
     {
-      title: 'AI-Generated Milestones',
+      title: selectedTemplate ? 'Review Milestones' : 'AI-Generated Milestones',
       content: (
         <div className="space-y-4">
           <p className="text-gray-600">
-            Based on your goal, here are suggested milestones to help you succeed:
+            {selectedTemplate 
+              ? 'Review and customize the milestones from your selected template:' 
+              : 'Based on your goal, here are suggested milestones to help you succeed:'}
           </p>
           <div className="space-y-3">
             {formData.milestones.map((milestone, index) => (
@@ -173,6 +254,16 @@ const GoalWizard = ({ onComplete, onCancel }) => {
     }
   ]
   
+if (showTemplateBrowser) {
+    return (
+      <GoalTemplateBrowser
+        onSelectTemplate={handleTemplateSelect}
+        onCancel={onCancel}
+        onSkip={handleSkipTemplates}
+      />
+    )
+  }
+
   return (
     <Card className="max-w-2xl mx-auto">
       <div className="p-6">
@@ -230,7 +321,7 @@ const GoalWizard = ({ onComplete, onCancel }) => {
           <div className="flex space-x-3">
             {currentStep < steps.length ? (
               <>
-                {currentStep === 2 && (
+                {currentStep === 3 && !selectedTemplate && (
                   <Button
                     variant="secondary"
                     onClick={generateMilestones}
@@ -239,10 +330,10 @@ const GoalWizard = ({ onComplete, onCancel }) => {
                     Generate Milestones
                   </Button>
                 )}
-                {currentStep !== 2 && (
+                {(currentStep !== 3 || selectedTemplate) && (
                   <Button
                     onClick={() => setCurrentStep(Math.min(steps.length, currentStep + 1))}
-                    disabled={currentStep === 1 && (!formData.title || !formData.targetDate)}
+                    disabled={currentStep === 2 && (!formData.title || !formData.targetDate)}
                   >
                     Next
                   </Button>

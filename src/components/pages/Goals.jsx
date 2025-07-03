@@ -109,11 +109,11 @@ const Goals = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           >
-            <motion.div
+<motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-6xl max-h-[90vh] overflow-y-auto"
             >
               <GoalWizard
                 onComplete={handleCreateGoal}

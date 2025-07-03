@@ -1,0 +1,414 @@
+[
+  {
+    "Id": 1,
+    "title": "Lose 20 Pounds in 4 Months",
+    "category": "health",
+    "description": "A comprehensive weight loss program focusing on healthy diet, regular exercise, and lifestyle changes to achieve sustainable weight loss.",
+    "tags": ["weight loss", "fitness", "health", "diet"],
+    "difficulty": "intermediate",
+    "estimatedDuration": "4 months",
+    "milestones": [
+      {
+        "title": "Set baseline measurements",
+        "description": "Record current weight, body measurements, and take progress photos",
+        "order": 1,
+        "estimatedDays": 1
+      },
+      {
+        "title": "Create meal plan and grocery list",
+        "description": "Plan healthy meals for the week and prepare shopping list",
+        "order": 2,
+        "estimatedDays": 7
+      },
+      {
+        "title": "Establish exercise routine",
+        "description": "Start with 3 days per week of cardio and strength training",
+        "order": 3,
+        "estimatedDays": 14
+      },
+      {
+        "title": "First milestone: 5 pounds lost",
+        "description": "Achieve first weight loss milestone and assess progress",
+        "order": 4,
+        "estimatedDays": 30
+      },
+      {
+        "title": "Halfway point: 10 pounds lost",
+        "description": "Celebrate halfway milestone and adjust plan if needed",
+        "order": 5,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Final push: 15 pounds lost",
+        "description": "Intensify efforts for final stretch to reach goal",
+        "order": 6,
+        "estimatedDays": 90
+      },
+      {
+        "title": "Achieve 20 pound weight loss",
+        "description": "Reach final goal and establish maintenance plan",
+        "order": 7,
+        "estimatedDays": 120
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "title": "Get Promoted to Senior Developer",
+    "category": "professional",
+    "description": "Advance your software development career by acquiring new skills, taking on leadership responsibilities, and demonstrating senior-level competencies.",
+    "tags": ["career", "programming", "leadership", "promotion"],
+    "difficulty": "advanced",
+    "estimatedDuration": "12 months",
+    "milestones": [
+      {
+        "title": "Skills assessment and gap analysis",
+        "description": "Evaluate current skills and identify areas for improvement",
+        "order": 1,
+        "estimatedDays": 7
+      },
+      {
+        "title": "Learn advanced framework/technology",
+        "description": "Master a new technology relevant to your role",
+        "order": 2,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Lead a project or feature",
+        "description": "Take ownership of a significant project or feature development",
+        "order": 3,
+        "estimatedDays": 90
+      },
+      {
+        "title": "Mentor junior developers",
+        "description": "Begin mentoring junior team members to develop leadership skills",
+        "order": 4,
+        "estimatedDays": 120
+      },
+      {
+        "title": "Improve code quality and architecture",
+        "description": "Implement best practices and improve codebase architecture",
+        "order": 5,
+        "estimatedDays": 180
+      },
+      {
+        "title": "Document and share knowledge",
+        "description": "Create documentation and share knowledge with the team",
+        "order": 6,
+        "estimatedDays": 240
+      },
+      {
+        "title": "Performance review and promotion discussion",
+        "description": "Present achievements and discuss promotion opportunity",
+        "order": 7,
+        "estimatedDays": 365
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "title": "Learn Spanish in 6 Months",
+    "category": "personal",
+    "description": "Achieve conversational fluency in Spanish through structured learning, practice, and immersion activities.",
+    "tags": ["language", "spanish", "learning", "travel"],
+    "difficulty": "intermediate",
+    "estimatedDuration": "6 months",
+    "milestones": [
+      {
+        "title": "Complete beginner course",
+        "description": "Finish a structured beginner Spanish course or app",
+        "order": 1,
+        "estimatedDays": 30
+      },
+      {
+        "title": "Learn 500 essential vocabulary words",
+        "description": "Master the most common Spanish vocabulary for daily conversation",
+        "order": 2,
+        "estimatedDays": 45
+      },
+      {
+        "title": "Practice with native speakers",
+        "description": "Start regular conversation practice with native Spanish speakers",
+        "order": 3,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Watch Spanish media without subtitles",
+        "description": "Understand Spanish movies/shows without English subtitles",
+        "order": 4,
+        "estimatedDays": 120
+      },
+      {
+        "title": "Have 30-minute conversations",
+        "description": "Maintain conversations in Spanish for 30 minutes or more",
+        "order": 5,
+        "estimatedDays": 150
+      },
+      {
+        "title": "Pass intermediate proficiency test",
+        "description": "Achieve intermediate level on a standardized Spanish test",
+        "order": 6,
+        "estimatedDays": 180
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "title": "Start a Side Business",
+    "category": "professional",
+    "description": "Launch a profitable side business while maintaining your full-time job, focusing on validation, marketing, and sustainable growth.",
+    "tags": ["business", "entrepreneurship", "side hustle", "income"],
+    "difficulty": "advanced",
+    "estimatedDuration": "8 months",
+    "milestones": [
+      {
+        "title": "Validate business idea",
+        "description": "Research market demand and validate your business concept",
+        "order": 1,
+        "estimatedDays": 14
+      },
+      {
+        "title": "Create business plan",
+        "description": "Develop a comprehensive business plan and financial projections",
+        "order": 2,
+        "estimatedDays": 30
+      },
+      {
+        "title": "Set up legal structure",
+        "description": "Register business, get necessary licenses and permits",
+        "order": 3,
+        "estimatedDays": 45
+      },
+      {
+        "title": "Build minimum viable product",
+        "description": "Create the simplest version of your product or service",
+        "order": 4,
+        "estimatedDays": 90
+      },
+      {
+        "title": "Launch and get first customers",
+        "description": "Go live and acquire your first paying customers",
+        "order": 5,
+        "estimatedDays": 120
+      },
+      {
+        "title": "Reach $1000 monthly revenue",
+        "description": "Achieve consistent monthly revenue of $1000 or more",
+        "order": 6,
+        "estimatedDays": 180
+      },
+      {
+        "title": "Scale operations",
+        "description": "Implement systems and processes to scale the business",
+        "order": 7,
+        "estimatedDays": 240
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "title": "Run Your First 5K",
+    "category": "health",
+    "description": "Go from couch to 5K with a structured training program designed for beginners to build endurance and achieve their first race goal.",
+    "tags": ["running", "fitness", "beginner", "cardio"],
+    "difficulty": "beginner",
+    "estimatedDuration": "2 months",
+    "milestones": [
+      {
+        "title": "Week 1: Walk-run intervals",
+        "description": "Alternate between walking and running for 20 minutes, 3 times per week",
+        "order": 1,
+        "estimatedDays": 7
+      },
+      {
+        "title": "Week 2-3: Increase running time",
+        "description": "Gradually increase running intervals while decreasing walking time",
+        "order": 2,
+        "estimatedDays": 14
+      },
+      {
+        "title": "Week 4-5: Run for 10 minutes straight",
+        "description": "Build up to running continuously for 10 minutes without walking",
+        "order": 3,
+        "estimatedDays": 21
+      },
+      {
+        "title": "Week 6-7: Run for 20 minutes",
+        "description": "Extend continuous running time to 20 minutes",
+        "order": 4,
+        "estimatedDays": 35
+      },
+      {
+        "title": "Week 8: Complete 5K distance",
+        "description": "Run the full 5K distance (3.1 miles) without stopping",
+        "order": 5,
+        "estimatedDays": 56
+      },
+      {
+        "title": "Register and complete official 5K race",
+        "description": "Sign up for and complete your first official 5K race event",
+        "order": 6,
+        "estimatedDays": 60
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "title": "Get AWS Cloud Certification",
+    "category": "education",
+    "description": "Prepare for and pass the AWS Solutions Architect Associate certification exam to advance your cloud computing career.",
+    "tags": ["aws", "cloud", "certification", "technology"],
+    "difficulty": "intermediate",
+    "estimatedDuration": "4 months",
+    "milestones": [
+      {
+        "title": "Complete AWS fundamentals course",
+        "description": "Finish a comprehensive AWS fundamentals online course",
+        "order": 1,
+        "estimatedDays": 30
+      },
+      {
+        "title": "Set up AWS account and practice",
+        "description": "Create AWS account and complete hands-on labs and exercises",
+        "order": 2,
+        "estimatedDays": 45
+      },
+      {
+        "title": "Study core AWS services",
+        "description": "Deep dive into EC2, S3, RDS, VPC, and other core services",
+        "order": 3,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Take practice exams",
+        "description": "Complete multiple practice exams and identify weak areas",
+        "order": 4,
+        "estimatedDays": 90
+      },
+      {
+        "title": "Final review and exam prep",
+        "description": "Intensive review of all topics and exam strategies",
+        "order": 5,
+        "estimatedDays": 110
+      },
+      {
+        "title": "Schedule and pass certification exam",
+        "description": "Take the official AWS Solutions Architect Associate exam",
+        "order": 6,
+        "estimatedDays": 120
+      }
+    ]
+  },
+  {
+    "Id": 7,
+    "title": "Build Emergency Fund",
+    "category": "personal",
+    "description": "Create a financial safety net by saving 3-6 months of expenses for unexpected situations and financial security.",
+    "tags": ["finance", "saving", "emergency", "money"],
+    "difficulty": "intermediate",
+    "estimatedDuration": "12 months",
+    "milestones": [
+      {
+        "title": "Calculate monthly expenses",
+        "description": "Track and calculate your total monthly living expenses",
+        "order": 1,
+        "estimatedDays": 7
+      },
+      {
+        "title": "Set savings target",
+        "description": "Determine target amount (3-6 months expenses) and monthly savings goal",
+        "order": 2,
+        "estimatedDays": 14
+      },
+      {
+        "title": "Open dedicated savings account",
+        "description": "Open a separate high-yield savings account for emergency fund",
+        "order": 3,
+        "estimatedDays": 21
+      },
+      {
+        "title": "Save first $1000",
+        "description": "Reach the initial emergency fund milestone of $1000",
+        "order": 4,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Automate savings",
+        "description": "Set up automatic transfers to emergency fund account",
+        "order": 5,
+        "estimatedDays": 90
+      },
+      {
+        "title": "Reach halfway point",
+        "description": "Save half of your target emergency fund amount",
+        "order": 6,
+        "estimatedDays": 180
+      },
+      {
+        "title": "Complete emergency fund",
+        "description": "Achieve full 3-6 months of expenses in emergency fund",
+        "order": 7,
+        "estimatedDays": 365
+      }
+    ]
+  },
+  {
+    "Id": 8,
+    "title": "Write and Publish a Book",
+    "category": "personal",
+    "description": "Complete writing, editing, and publishing your first book, whether fiction or non-fiction, from concept to publication.",
+    "tags": ["writing", "publishing", "book", "creativity"],
+    "difficulty": "advanced",
+    "estimatedDuration": "10 months",
+    "milestones": [
+      {
+        "title": "Develop book concept and outline",
+        "description": "Create detailed book concept, target audience, and chapter outline",
+        "order": 1,
+        "estimatedDays": 14
+      },
+      {
+        "title": "Write first draft - 25% complete",
+        "description": "Complete first quarter of your book's first draft",
+        "order": 2,
+        "estimatedDays": 60
+      },
+      {
+        "title": "Write first draft - 50% complete",
+        "description": "Reach halfway point in your book's first draft",
+        "order": 3,
+        "estimatedDays": 120
+      },
+      {
+        "title": "Complete first draft",
+        "description": "Finish the complete first draft of your book",
+        "order": 4,
+        "estimatedDays": 180
+      },
+      {
+        "title": "Self-edit and revise",
+        "description": "Review, edit, and revise your manuscript",
+        "order": 5,
+        "estimatedDays": 240
+      },
+      {
+        "title": "Professional editing",
+        "description": "Get professional editing and incorporate feedback",
+        "order": 6,
+        "estimatedDays": 270
+      },
+      {
+        "title": "Design cover and format",
+        "description": "Create book cover and format for publication",
+        "order": 7,
+        "estimatedDays": 285
+      },
+      {
+        "title": "Publish book",
+        "description": "Launch your book on chosen publishing platform",
+        "order": 8,
+        "estimatedDays": 300
+      }
+    ]
+  }
+]
