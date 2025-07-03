@@ -1,0 +1,161 @@
+[
+  {
+    "Id": 1,
+    "title": "Focus Challenge: Week of January 29th",
+    "description": "Vote for the area your pod should focus on this week to maximize collective progress.",
+    "status": "active",
+    "startDate": "2024-01-29T00:00:00.000Z",
+    "endDate": "2024-02-04T23:59:59.000Z",
+    "options": [
+      {
+        "type": "consistency",
+        "title": "Daily Consistency",
+        "description": "Focus on maintaining daily habits and routines",
+        "icon": "Calendar"
+      },
+      {
+        "type": "accountability",
+        "title": "Peer Accountability",
+        "description": "Increase check-ins and mutual support",
+        "icon": "Users"
+      },
+      {
+        "type": "milestones",
+        "title": "Milestone Achievement",
+        "description": "Push towards completing pending milestones",
+        "icon": "Target"
+      },
+      {
+        "type": "learning",
+        "title": "Skill Development",
+        "description": "Dedicate time to learning new skills",
+        "icon": "BookOpen"
+      }
+    ],
+    "votes": [
+      {
+        "userId": 2,
+        "voteType": "consistency",
+        "timestamp": "2024-01-29T10:30:00.000Z"
+      },
+      {
+        "userId": 3,
+        "voteType": "accountability",
+        "timestamp": "2024-01-29T11:15:00.000Z"
+      },
+      {
+        "userId": 4,
+        "voteType": "consistency",
+        "timestamp": "2024-01-29T12:00:00.000Z"
+      },
+      {
+        "userId": 5,
+        "voteType": "milestones",
+        "timestamp": "2024-01-29T13:45:00.000Z"
+      }
+    ],
+    "createdAt": "2024-01-29T00:00:00.000Z",
+    "updatedAt": "2024-01-29T13:45:00.000Z"
+  },
+  {
+    "Id": 2,
+    "title": "Focus Challenge: Week of January 22nd",
+    "description": "Previous week's focus challenge results.",
+    "status": "completed",
+    "startDate": "2024-01-22T00:00:00.000Z",
+    "endDate": "2024-01-28T23:59:59.000Z",
+    "options": [
+      {
+        "type": "consistency",
+        "title": "Daily Consistency",
+        "description": "Focus on maintaining daily habits and routines",
+        "icon": "Calendar"
+      },
+      {
+        "type": "accountability",
+        "title": "Peer Accountability",
+        "description": "Increase check-ins and mutual support",
+        "icon": "Users"
+      },
+      {
+        "type": "milestones",
+        "title": "Milestone Achievement",
+        "description": "Push towards completing pending milestones",
+        "icon": "Target"
+      },
+      {
+        "type": "learning",
+        "title": "Skill Development",
+        "description": "Dedicate time to learning new skills",
+        "icon": "BookOpen"
+      }
+    ],
+    "votes": [
+      {
+        "userId": 1,
+        "voteType": "accountability",
+        "timestamp": "2024-01-22T09:00:00.000Z"
+      },
+      {
+        "userId": 2,
+        "voteType": "accountability",
+        "timestamp": "2024-01-22T10:30:00.000Z"
+      },
+      {
+        "userId": 3,
+        "voteType": "accountability",
+        "timestamp": "2024-01-22T11:15:00.000Z"
+      },
+      {
+        "userId": 4,
+        "voteType": "milestones",
+        "timestamp": "2024-01-22T12:00:00.000Z"
+      },
+      {
+        "userId": 5,
+        "voteType": "accountability",
+        "timestamp": "2024-01-22T13:45:00.000Z"
+      }
+    ],
+    "winningOption": "accountability",
+    "createdAt": "2024-01-22T00:00:00.000Z",
+    "updatedAt": "2024-01-28T23:59:59.000Z"
+  },
+  {
+    "Id": 3,
+    "title": "Focus Challenge: Week of February 5th",
+    "description": "Upcoming week's focus challenge - voting opens soon.",
+    "status": "upcoming",
+    "startDate": "2024-02-05T00:00:00.000Z",
+    "endDate": "2024-02-11T23:59:59.000Z",
+    "options": [
+      {
+        "type": "consistency",
+        "title": "Daily Consistency",
+        "description": "Focus on maintaining daily habits and routines",
+        "icon": "Calendar"
+      },
+      {
+        "type": "accountability",
+        "title": "Peer Accountability",
+        "description": "Increase check-ins and mutual support",
+        "icon": "Users"
+      },
+      {
+        "type": "milestones",
+        "title": "Milestone Achievement",
+        "description": "Push towards completing pending milestones",
+        "icon": "Target"
+      },
+      {
+        "type": "learning",
+        "title": "Skill Development",
+        "description": "Dedicate time to learning new skills",
+        "icon": "BookOpen"
+      }
+    ],
+    "votes": [],
+    "createdAt": "1/29/2024 12:00:00 AM.000Z",
+    "updatedAt": "2024-01-29T00:00:00.000Z"
+  }
+]

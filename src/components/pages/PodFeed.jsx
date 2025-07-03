@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import UpdateComposer from "@/components/molecules/UpdateComposer";
 import PodMemberCard from "@/components/molecules/PodMemberCard";
 import UpdateCard from "@/components/molecules/UpdateCard";
+import ChallengeVotingCard from "@/components/molecules/ChallengeVotingCard";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
@@ -10,12 +11,14 @@ import { updateService } from "@/services/api/updateService";
 import { goalService } from "@/services/api/goalService";
 import { userService } from "@/services/api/userService";
 import { reactionService } from "@/services/api/reactionService";
-
+import { challengeVotingService } from "@/services/api/challengeVotingService";
+import { toast } from "react-toastify";
 export default function PodFeed() {
   const [updates, setUpdates] = useState([])
   const [reactions, setReactions] = useState([])
   const [users, setUsers] = useState([])
   const [goals, setGoals] = useState([])
+  const [challenges, setChallenges] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   
@@ -28,15 +31,16 @@ export default function PodFeed() {
   useEffect(() => {
     loadData()
   }, [])
-  const loadData = async () => {
+const loadData = async () => {
 try {
       setError(null)
       
-      const [updatesData, reactionsData, usersData, goalsData] = await Promise.all([
+      const [updatesData, reactionsData, usersData, goalsData, challengesData] = await Promise.all([
         updateService.getAll(),
         reactionService.getAll(),
         userService.getAll(),
-        goalService.getAll()
+        goalService.getAll(),
+        challengeVotingService.getAll()
       ])
       
       // Sort updates by timestamp (newest first)
@@ -48,7 +52,7 @@ try {
       setReactions(reactionsData)
       setUsers(usersData)
       setGoals(goalsData)
-      
+      setChallenges(challengesData)
     } catch (err) {
       console.error('Pod feed loading error:', err)
       setError('Failed to load pod feed. Please try again.')
@@ -96,6 +100,47 @@ try {
     } catch (err) {
       setError('Failed to update reaction')
     }
+}
+  
+  const handleChallengeVote = async (challengeId, voteType) => {
+    try {
+      const challenge = challenges.find(c => c.Id === challengeId)
+      if (!challenge) {
+        toast.error('Challenge not found')
+        return
+      }
+      
+      const existingVote = challenge.votes.find(v => v.userId === currentUser.Id)
+      
+      if (existingVote) {
+        // Update existing vote
+        const updatedChallenge = await challengeVotingService.update(challengeId, {
+          ...challenge,
+          votes: challenge.votes.map(v => 
+            v.userId === currentUser.Id 
+              ? { ...v, voteType, timestamp: new Date().toISOString() }
+              : v
+          )
+        })
+        setChallenges(prev => prev.map(c => c.Id === challengeId ? updatedChallenge : c))
+        toast.success('Vote updated successfully!')
+      } else {
+        // Add new vote
+        const updatedChallenge = await challengeVotingService.update(challengeId, {
+          ...challenge,
+          votes: [...challenge.votes, {
+            userId: currentUser.Id,
+            voteType,
+            timestamp: new Date().toISOString()
+          }]
+        })
+        setChallenges(prev => prev.map(c => c.Id === challengeId ? updatedChallenge : c))
+        toast.success('Vote cast successfully!')
+      }
+    } catch (err) {
+      console.error('Voting error:', err)
+      toast.error('Failed to cast vote. Please try again.')
+    }
   }
   
   const getUserById = (userId) => {
@@ -108,7 +153,6 @@ try {
   
   // Get pod members (excluding current user)
   const podMembers = users.filter(u => u.Id !== currentUser.Id).slice(0, 4)
-  
   if (loading) return <Loading type="feed" />
   if (error) return <Error message={error} onRetry={loadData} />
   
@@ -201,8 +245,15 @@ try {
                   return new Date(u.timestamp) > weekAgo
                 }).length} updates</span>
               </div>
-            </div>
+</div>
           </div>
+          
+          {/* Challenge Voting */}
+          <ChallengeVotingCard 
+            challenges={challenges}
+            currentUser={currentUser}
+            onVote={handleChallengeVote}
+          />
           
           {/* Motivational Quote */}
           <div className="bg-gradient-secondary rounded-xl p-6 text-white">
